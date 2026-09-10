@@ -1,0 +1,337 @@
+<!doctype html>
+<html lang="ro">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="theme-color" content="#09090b">
+  <meta name="description" content="Si Mi Song — cursuri de muzică și studio de înregistrări în Suceava și Rădăuți.">
+  <title>Si Mi Song — Școală de muzică & studio</title>
+  <style>
+    :root {
+      --bg: #09090b;
+      --surface: #121216;
+      --surface-2: #19191f;
+      --ink: #f8f6f2;
+      --muted: #aaa6b0;
+      --line: rgba(255,255,255,.12);
+      --pink: #ef168f;
+      --orange: #ff8b24;
+      --lime: #d7ff43;
+      --max: 1180px;
+    }
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0;
+      background: var(--bg);
+      color: var(--ink);
+      font-family: Inter, "Segoe UI", system-ui, sans-serif;
+      font-size: 17px;
+      line-height: 1.55;
+      -webkit-font-smoothing: antialiased;
+      overflow-x: hidden;
+    }
+    a { color: inherit; }
+    button, a { -webkit-tap-highlight-color: transparent; }
+    .wrap { width: min(calc(100% - 40px), var(--max)); margin-inline: auto; }
+    .eyebrow {
+      margin: 0 0 18px;
+      color: var(--orange);
+      font-size: .76rem;
+      font-weight: 800;
+      letter-spacing: .18em;
+      text-transform: uppercase;
+    }
+    h1, h2, h3, p { margin-top: 0; }
+    h1, h2, h3 { line-height: .98; letter-spacing: -.045em; }
+    h1 { margin-bottom: 26px; font-size: clamp(3.5rem, 8.1vw, 6.9rem); max-width: 10ch; text-transform: uppercase; }
+    h2 { margin-bottom: 22px; font-size: clamp(2.6rem, 5.8vw, 5.3rem); max-width: 10ch; }
+    h3 { margin-bottom: 12px; font-size: 1.45rem; }
+    .gradient { color: transparent; background: linear-gradient(95deg, var(--pink), var(--orange)); -webkit-background-clip: text; background-clip: text; }
+    .lead { color: #d0ccd4; font-size: clamp(1.1rem, 1.7vw, 1.34rem); max-width: 650px; }
+    .muted { color: var(--muted); }
+
+    .topbar {
+      position: absolute;
+      z-index: 10;
+      inset: 0 0 auto;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      width: min(calc(100% - 40px), var(--max));
+      margin: 0 auto;
+      padding: 25px 0;
+    }
+    .brand { display: flex; align-items: center; gap: 8px; text-decoration: none; font-weight: 900; letter-spacing: -.04em; }
+    .brand-mark { display: block; flex: 0 0 auto; width: 18px; height: 18px; border-radius: 50%; background: linear-gradient(135deg, var(--pink), var(--orange)); }
+    .toplinks { display: flex; gap: 30px; align-items: center; }
+    .toplinks a { color: #d7d4da; text-decoration: none; font-size: .9rem; font-weight: 700; }
+    .toplinks a:hover { color: #fff; }
+
+    .hero { position: relative; min-height: 720px; display: grid; align-items: stretch; overflow: hidden; }
+    .hero-image { position: absolute; inset: 0 0 auto 42%; height: 820px; }
+    .hero-image img { width: 100%; height: 100%; object-fit: cover; object-position: 40% 50%; filter: saturate(.92) contrast(1.04); transform: scale(1.16); }
+    .hero-image::before { content: ""; position: absolute; z-index: 1; inset: 0; background: linear-gradient(90deg, var(--bg) 0%, rgba(9,9,11,.92) 11%, rgba(9,9,11,.22) 60%), linear-gradient(0deg, var(--bg) 0%, transparent 35%); }
+    .hero-image::after { content: ""; position: absolute; z-index: 2; left: 57%; top: 27%; width: clamp(120px, 14vw, 210px); aspect-ratio: 1; border-radius: 50%; background: radial-gradient(circle, rgba(255,190,103,.52) 0%, rgba(255,139,36,.2) 35%, transparent 72%); filter: blur(24px); opacity: .5; transform: translate(-50%,-50%) scale(.94); mix-blend-mode: screen; pointer-events: none; animation: glow-pulse 6s ease-in-out infinite; }
+    .hero::after { content: ""; position: absolute; z-index: 0; width: 44vw; height: 44vw; left: -18vw; top: -20vw; border-radius: 50%; background: rgba(239,22,143,.22); filter: blur(130px); }
+    .hero-content { position: relative; z-index: 2; padding: 175px 0 82px; }
+    .hero-copy { width: min(720px, 66%); }
+    .hero .lead { max-width: 590px; }
+    .actions { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 34px; }
+    .btn { display: inline-flex; min-height: 54px; align-items: center; justify-content: center; gap: 10px; padding: 0 23px; border: 1px solid transparent; border-radius: 999px; font: inherit; font-weight: 850; text-decoration: none; cursor: pointer; transition: transform .2s, background .2s, border-color .2s; }
+    .btn:hover { transform: translateY(-2px); }
+    .btn-main { background: var(--lime); color: #101205; }
+    .btn-ghost { background: rgba(15,15,19,.55); border-color: rgba(255,255,255,.28); color: white; backdrop-filter: blur(8px); }
+    .btn-arrow::after { content: "↗"; font-size: 1.05em; }
+    .nowrap { white-space: nowrap; }
+
+    section { padding: 120px 0; }
+    #cursuri { padding-top: 40px; }
+    .section-head { display: flex; justify-content: space-between; align-items: end; gap: 40px; margin-bottom: 56px; }
+    .section-head h2 { margin-bottom: 0; }
+    .section-head .lead { width: min(460px, 44%); margin-bottom: 5px; }
+
+    .choice-grid { display: grid; grid-template-columns: repeat(2, 1fr); border-top: 1px solid var(--line); }
+    .choice { position: relative; min-height: 270px; padding: 33px 30px 34px 78px; border-bottom: 1px solid var(--line); overflow: hidden; }
+    .choice:nth-child(odd) { border-right: 1px solid var(--line); }
+    .choice-num { position: absolute; left: 0; top: 37px; color: #5e5b64; font: 700 .75rem/1 ui-monospace, monospace; }
+    .choice h3 { font-size: clamp(1.8rem, 3vw, 2.7rem); }
+    .choice p { max-width: 390px; color: var(--muted); }
+    .tags { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 26px; }
+    .tag { padding: 7px 11px; border: 1px solid var(--line); border-radius: 999px; color: #ddd9e0; font-size: .82rem; font-weight: 700; }
+    .choice::after { content: ""; position: absolute; width: 150px; height: 150px; right: -100px; bottom: -100px; border-radius: 50%; background: var(--pink); filter: blur(28px); opacity: 0; transition: opacity .3s, transform .3s; }
+    .choice:hover::after { opacity: .3; transform: translate(-25px,-25px); }
+
+    @keyframes glow-pulse {
+      0%, 100% { opacity: .42; transform: translate(-50%,-50%) scale(.94); }
+      50% { opacity: .68; transform: translate(-50%,-50%) scale(1.06); }
+    }
+
+    .manifesto { padding: 150px 0; background: var(--ink); color: #0b0b0e; }
+    .manifesto-grid { display: grid; grid-template-columns: 1.1fr .9fr; gap: 80px; align-items: start; }
+    .manifesto h2 { max-width: 11ch; }
+    .manifesto .eyebrow { color: #a6005f; }
+    .manifesto-copy { padding-top: 56px; font-size: clamp(1.15rem, 2vw, 1.45rem); }
+    .manifesto-copy p:last-child { margin-bottom: 0; }
+
+    .listen { overflow: hidden; }
+    .video-grid { display: grid; grid-template-columns: 1.3fr .7fr; gap: 16px; }
+    .video-card { position: relative; display: block; min-height: 250px; border-radius: 20px; overflow: hidden; text-decoration: none; background: var(--surface); isolation: isolate; }
+    .video-card:first-child { min-height: 520px; grid-row: span 2; }
+    .video-card img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; opacity: .72; transition: transform .5s, opacity .3s; }
+    .video-card::after { content: ""; position: absolute; z-index: 0; inset: 0; background: linear-gradient(0deg, rgba(0,0,0,.88), transparent 65%); }
+    .video-card:hover img { transform: scale(1.035); opacity: .9; }
+    .video-label { position: absolute; z-index: 1; inset: auto 24px 22px; display: flex; justify-content: space-between; align-items: end; gap: 16px; font-weight: 800; }
+    .play { display: grid; place-items: center; flex: 0 0 auto; width: 45px; height: 45px; border-radius: 50%; background: var(--lime); color: #0a0b04; font-size: .9rem; }
+
+    .choir-card { display: grid; grid-template-columns: .85fr 1.15fr; min-height: 590px; border-radius: 28px; overflow: hidden; background: linear-gradient(135deg, #de087c, #ff7f27); }
+    .choir-art { position: relative; min-height: 350px; overflow: hidden; background: #1a1118; }
+    .choir-art img { display: block; width: 100%; height: 100%; object-fit: cover; object-position: 48% center; }
+    .choir-copy { padding: 72px 60px; display: flex; flex-direction: column; justify-content: center; }
+    .choir-copy .eyebrow { color: #250210; }
+    .choir-copy h2 { max-width: 9ch; }
+    .schedule { align-self: flex-start; margin: 14px 0 18px; padding: 9px 13px; border-radius: 999px; background: rgba(0,0,0,.22); font-size: .88rem; font-weight: 800; }
+    .choir-copy p { max-width: 500px; }
+
+    .studio { position: relative; min-height: 800px; display: flex; align-items: end; background: #060607; overflow: hidden; }
+    .studio-bg { position: absolute; inset: 0; background: linear-gradient(90deg, rgba(6,6,7,.96), rgba(6,6,7,.25) 55%, rgba(6,6,7,.48)), linear-gradient(0deg, #060607, transparent 35%), url("assets/studio-hero.png") 72% center / cover no-repeat; }
+    .studio::before { content: "STUDIO"; position: absolute; z-index: 1; right: -1vw; top: 5%; color: rgba(255,255,255,.055); font-size: min(18vw, 250px); font-weight: 950; letter-spacing: -.09em; }
+    .studio .wrap { position: relative; z-index: 2; padding-bottom: 95px; }
+    .studio-copy { max-width: 560px; }
+    .studio-copy h2 { max-width: 8ch; }
+
+    .contact { background: #f1eee8; color: #111014; }
+    .contact-grid { display: grid; grid-template-columns: .9fr 1.1fr; gap: 90px; }
+    .contact h2 { max-width: 8ch; }
+    .contact .eyebrow { color: #b20064; }
+    .contact-copy { font-size: 1.1rem; }
+    .contact-panel { padding-top: 12px; }
+    .contact-panel fieldset { padding: 0; margin: 0 0 30px; border: 0; }
+    .contact-panel legend { margin-bottom: 11px; font-size: .78rem; font-weight: 850; letter-spacing: .13em; text-transform: uppercase; }
+    .pills { display: flex; flex-wrap: wrap; gap: 9px; }
+    .pill { min-height: 46px; padding: 0 16px; border: 1px solid rgba(17,16,20,.2); border-radius: 999px; background: transparent; color: #302e34; font: inherit; font-size: .92rem; font-weight: 750; cursor: pointer; }
+    .pill[aria-pressed="true"] { background: #131216; color: white; border-color: #131216; }
+    .wa { width: 100%; min-height: 64px; border: 0; background: #1dce69; color: #062411; font-size: 1rem; }
+    .contact-meta { display: flex; flex-wrap: wrap; gap: 20px 30px; margin-top: 24px; color: #49464e; font-weight: 700; }
+
+    footer { padding: 42px 0; border-top: 1px solid var(--line); color: #7f7b85; font-size: .78rem; }
+    .footer-row { display: flex; justify-content: flex-end; align-items: center; gap: 42px; }
+    .footer-copy { display: grid; gap: 4px; text-align: right; }
+
+    @media (max-width: 900px) {
+      .toplinks a:not(.top-cta) { display: none; }
+      .hero { min-height: 650px; }
+      .hero-image { inset: 0 0 auto 20%; height: 704px; }
+      .hero-image::before { background: linear-gradient(90deg, var(--bg), rgba(9,9,11,.35)), linear-gradient(0deg, var(--bg) 2%, transparent 65%); }
+      .hero-content { padding-top: 150px; }
+      .hero-copy { width: 85%; }
+      .section-head, .manifesto-grid, .contact-grid { grid-template-columns: 1fr; display: grid; gap: 24px; }
+      .section-head .lead { width: 100%; }
+      .manifesto-copy { padding-top: 0; max-width: 650px; }
+      .choir-card { grid-template-columns: 1fr; }
+      .choir-copy { padding: 55px 38px; }
+      .contact-grid { gap: 48px; }
+      #cursuri { margin-top: 0; padding-top: 32px; }
+    }
+    @media (max-width: 650px) {
+      body { font-size: 16px; }
+      .wrap { width: min(calc(100% - 32px), var(--max)); }
+      .topbar { width: calc(100% - 32px); }
+      .top-cta { padding: 0 15px; min-height: 43px; font-size: .82rem; }
+      .hero { min-height: 700px; }
+      .hero-image { inset: 0 0 auto 10%; height: 533px; }
+      .hero-image img { object-position: 40% 50%; transform: scale(1.16); }
+      .hero-image::after { left: 66%; top: 30%; width: 140px; }
+      .hero-image::before { background: linear-gradient(90deg, rgba(9,9,11,.78), rgba(9,9,11,.08)), linear-gradient(0deg, var(--bg) 0%, rgba(9,9,11,.2) 60%); }
+      .hero-content { padding: 132px 0 54px; }
+      .hero-copy { width: 100%; }
+      h1 { font-size: clamp(3.35rem, 18vw, 5.2rem); }
+      section { padding: 88px 0; }
+      #cursuri { margin-top: 0; padding-top: 32px; }
+      .choice-grid { grid-template-columns: 1fr; }
+      .choice:nth-child(odd) { border-right: 0; }
+      .choice { min-height: 0; padding: 29px 10px 30px 56px; }
+      .video-grid { grid-template-columns: 1fr; }
+      .video-card:first-child { min-height: 300px; grid-row: auto; }
+      .video-card { min-height: 220px; }
+      .choir-art { min-height: 0; aspect-ratio: 4 / 3; }
+      .choir-copy { padding: 45px 27px; }
+      .studio { min-height: 720px; }
+      .studio-bg { background: linear-gradient(0deg, #060607 8%, rgba(6,6,7,.18) 75%), url("assets/studio-hero.png") 64% top / auto 78% no-repeat; }
+      .studio .wrap { padding-bottom: 58px; }
+      .contact-meta { display: grid; gap: 8px; }
+      .footer-row { display: grid; justify-items: start; gap: 22px; }
+      .footer-copy { text-align: left; }
+    }
+    @media (hover: none) {
+      .choice.is-lit::after { opacity: .3; transform: translate(-25px,-25px); }
+    }
+    @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } * { transition: none !important; animation: none !important; } }
+  </style>
+</head>
+<body>
+  <header class="hero" id="sus">
+    <nav class="topbar" aria-label="Navigare principală">
+      <a class="brand" href="#sus" aria-label="Si Mi Song — începutul paginii"><span class="brand-mark" aria-hidden="true"></span><span>Si Mi Song</span></a>
+      <div class="toplinks">
+        <a href="#cursuri">Cursuri</a>
+        <a href="#cor">Cor</a>
+        <a href="#studio">Studio</a>
+        <a class="btn btn-ghost top-cta" href="#contact">Contact</a>
+      </div>
+    </nav>
+    <div class="hero-image"><img src="assets/studio-hero.png" alt="Microfon într-un studio de înregistrări, în lumină caldă"></div>
+    <div class="wrap hero-content">
+      <div class="hero-copy">
+        <p class="eyebrow">CURSURI DE MUZICĂ - SUCEAVA & RĂDĂUȚI</p>
+        <h1>Muzica se învață <span class="gradient">cântând.</span></h1>
+        <div class="actions">
+          <a class="btn btn-main" href="#contact">REZERVĂ O ÎNTÂLNIRE GRATUITĂ</a>
+          <a class="btn btn-ghost" href="#studio">ÎNREGISTREAZĂ O PIESĂ</a>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <section id="cursuri">
+      <div class="wrap">
+        <div class="section-head">
+          <div><p class="eyebrow">Cursuri</p><h2>Ce poți învăța la <span class="nowrap">Si Mi Song?</span></h2></div>
+          <p class="lead">Dacă nu știi încă ce instrument să alegi, discutăm la prima întâlnire și îți recomandăm instrumentul potrivit.</p>
+        </div>
+        <div class="choice-grid">
+          <article class="choice"><span class="choice-num">01</span><h3>Canto și cor</h3><p>Lucrăm la respirație, auz și interpretare. Sunt copii foarte talentați care nu au încă încredere să cânte singuri. Cântând în cor, alături de alți copii, își depășesc treptat tracul și capătă curaj.</p><div class="tags"><span class="tag">Canto</span><span class="tag">Cor</span></div></article>
+          <article class="choice"><span class="choice-num">02</span><h3>Pian și acordeon</h3><p>La pian sau acordeon, fiecare elev învață pas cu pas, prin exerciții și piese potrivite vârstei și nivelului său.</p><div class="tags"><span class="tag">Pian</span><span class="tag">Acordeon</span></div></article>
+          <article class="choice"><span class="choice-num">03</span><h3>Instrumente de suflat</h3><p>Pentru un sunet bun, ambușura și respirația se învață împreună. Cu o tehnică corectă de la început, elevul progresează mai ușor și nu ajunge să se descurajeze.</p><div class="tags"><span class="tag">Clarinet</span><span class="tag">Saxofon</span><span class="tag">Trompetă</span><span class="tag">Flaut</span></div></article>
+          <article class="choice"><span class="choice-num">04</span><h3>Țambal</h3><p>Țambalul are un loc aparte în muzica tradițională românească, dar se predă în puține școli. La Si Mi Song, îl poți învăța de la zero, pas cu pas, cu accent pe tehnica corectă.</p><div class="tags"><span class="tag">Țambal</span></div></article>
+        </div>
+      </div>
+    </section>
+
+    <section class="manifesto">
+      <div class="wrap manifesto-grid">
+        <div><p class="eyebrow">CUM ÎNCEPI?</p><h2>Cu o întâlnire gratuită.</h2></div>
+        <div class="manifesto-copy"><p>Ne cunoaștem, vorbim despre ce ai vrea să înveți tu sau copilul tău și vedem care ar fi cel mai bun început.</p><p>Nu este un examen și nu trebuie să te hotărăști pe loc. La final, pleci cu o recomandare clară.</p></div>
+      </div>
+    </section>
+
+    <section class="listen">
+      <div class="wrap">
+        <div class="section-head">
+          <div><p class="eyebrow">ELEVII SI MI SONG</p><h2>Portofoliu video</h2></div>
+        </div>
+        <div class="video-grid">
+          <a class="video-card" href="https://www.youtube.com/watch?v=YE3hhk99CMY" target="_blank" rel="noopener"><img src="https://i.ytimg.com/vi/YE3hhk99CMY/hqdefault.jpg" alt="Cearta notelor Muzicale" loading="lazy"><span class="video-label"><span>Cearta notelor Muzicale</span><span class="play">▶</span></span></a>
+          <a class="video-card" href="https://www.youtube.com/watch?v=V8HTrzH39Uc" target="_blank" rel="noopener"><img src="https://i.ytimg.com/vi/V8HTrzH39Uc/hqdefault.jpg" alt="Brâu amestecat" loading="lazy"><span class="video-label"><span>Brâu amestecat</span><span class="play">▶</span></span></a>
+          <a class="video-card" href="https://www.youtube.com/watch?v=MTRBj3o-YGw" target="_blank" rel="noopener"><img src="https://i.ytimg.com/vi/MTRBj3o-YGw/hqdefault.jpg" alt="Pitpalacul" loading="lazy"><span class="video-label"><span>Pitpalacul</span><span class="play">▶</span></span></a>
+        </div>
+      </div>
+    </section>
+
+    <section id="cor">
+      <div class="wrap">
+        <div class="choir-card">
+          <div class="choir-art"><img src="assets/cor-si-mi-song.jpg" alt="Copiii corului Si Mi Song la repetiție" loading="lazy"></div>
+          <div class="choir-copy"><p class="eyebrow">CORUL SI MI SONG</p><h2>Cor pentru copii.</h2><span class="schedule">SUCEAVA · MIERCURI · 17:00–19:00</span><p>La repetiții, copiii învață să asculte celelalte voci, să urmărească dirijorul și să cânte împreună. Corul este deschis și copiilor care nu au mai cântat până acum.</p><div class="actions"><a class="btn btn-ghost" href="#contact">Vreau detalii despre cor</a></div></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="studio" id="studio">
+      <div class="studio-bg" aria-hidden="true"></div>
+      <div class="wrap">
+        <div class="studio-copy"><p class="eyebrow">Studio de înregistrări</p><h2>Înregistrează la <span class="gradient">Si Mi Song.</span></h2><p class="lead">Poți înregistra voce sau instrument. Stabilim înainte ce vrei să faci și de cât timp ai nevoie, iar în studio primești ajutorul tehnic necesar.</p><div class="actions"><a class="btn btn-main" href="https://wa.me/40743549230?text=Bun%C4%83%20ziua!%20A%C8%99%20dori%20s%C4%83%20programez%20o%20sesiune%20%C3%AEn%20studioul%20Si%20Mi%20Song." target="_blank" rel="noopener">Programează o sesiune</a></div></div>
+      </div>
+    </section>
+
+    <section class="contact" id="contact">
+      <div class="wrap contact-grid">
+        <div><p class="eyebrow">Contact</p><h2>Spune-ne cu ce te putem ajuta.</h2><p class="contact-copy">Alege locația și serviciul care te interesează. Se va deschide WhatsApp cu un mesaj pregătit, pe care îl poți modifica înainte să îl trimiți.</p></div>
+        <div class="contact-panel">
+          <fieldset><legend>Unde?</legend><div class="pills" data-group="location"><button class="pill" type="button" aria-pressed="true" data-value="Suceava">Suceava</button><button class="pill" type="button" aria-pressed="false" data-value="Rădăuți">Rădăuți</button></div></fieldset>
+          <fieldset><legend>Ce te interesează?</legend><div class="pills" data-group="interest"><button class="pill" type="button" aria-pressed="true" data-value="cursuri pentru copilul meu">Cursuri pentru copil</button><button class="pill" type="button" aria-pressed="false" data-value="cursuri pentru mine">Cursuri pentru mine</button><button class="pill" type="button" aria-pressed="false" data-value="corul Si Mi Song">Cor</button><button class="pill" type="button" aria-pressed="false" data-value="o sesiune în studio">Studio</button></div></fieldset>
+          <a class="btn wa btn-arrow" id="whatsapp" href="#">Deschide WhatsApp</a>
+          <div class="contact-meta"><span>Cursuri: 0749 357 540</span><span>Studio: 0743 549 230</span><span>Suceava · Rădăuți</span></div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="wrap footer-row">
+      <div class="footer-copy"><span>© 2026 Si Mi Song</span><span>Școală de muzică & studio de înregistrări</span></div>
+    </div>
+  </footer>
+
+  <script>
+    (() => {
+      const state = { location: "Suceava", interest: "cursuri pentru copilul meu" };
+      const link = document.querySelector("#whatsapp");
+      const refresh = () => {
+        const text = `Bună ziua! Mă interesează ${state.interest}, la ${state.location}. Îmi puteți spune, vă rog, cum se desfășoară și când aș putea veni la o primă întâlnire?`;
+        const phone = state.interest === "o sesiune în studio" ? "40743549230" : "40749357540";
+        link.href = `https://wa.me/${phone}?text=${encodeURIComponent(text)}`;
+        link.target = "_blank";
+        link.rel = "noopener";
+      };
+      document.querySelectorAll("[data-group]").forEach(group => {
+        group.addEventListener("click", event => {
+          const button = event.target.closest("button");
+          if (!button) return;
+          group.querySelectorAll("button").forEach(item => item.setAttribute("aria-pressed", String(item === button)));
+          state[group.dataset.group] = button.dataset.value;
+          refresh();
+        });
+      });
+      if ("IntersectionObserver" in window && window.matchMedia("(hover: none)").matches) {
+        const observer = new IntersectionObserver(entries => {
+          entries.forEach(entry => entry.target.classList.toggle("is-lit", entry.isIntersecting));
+        }, { rootMargin: "-35% 0px -35% 0px", threshold: 0 });
+        document.querySelectorAll(".choice").forEach(choice => observer.observe(choice));
+      }
+      refresh();
+    })();
+  </script>
+</body>
+</html>
