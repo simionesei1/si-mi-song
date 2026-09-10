@@ -100,7 +100,7 @@
     .choice p { max-width: 390px; color: var(--muted); }
     .tags { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 26px; }
     .tag { padding: 7px 11px; border: 1px solid var(--line); border-radius: 999px; color: #ddd9e0; font-size: .82rem; font-weight: 700; }
-    .choice::after { content: ""; position: absolute; width: 150px; height: 150px; right: -100px; bottom: -100px; border-radius: 50%; background: var(--pink); filter: blur(28px); opacity: 0; transition: opacity .3s, transform .3s; }
+    .choice::after { content: ""; position: absolute; width: 150px; height: 150px; right: -100px; bottom: -100px; border-radius: 50%; background: radial-gradient(circle at center, var(--pink) 0 22%, rgba(239,22,143,.72) 38%, rgba(239,22,143,.22) 55%, transparent 70%); opacity: 0; transition: opacity .3s, transform .3s; }
     .choice:hover::after { opacity: .3; transform: translate(-25px,-25px); }
 
     @keyframes glow-pulse {
@@ -152,6 +152,7 @@
     .pills { display: flex; flex-wrap: wrap; gap: 9px; }
     .pill { min-height: 46px; padding: 0 16px; border: 1px solid rgba(17,16,20,.2); border-radius: 999px; background: transparent; color: #302e34; font: inherit; font-size: .92rem; font-weight: 750; cursor: pointer; }
     .pill[aria-pressed="true"] { background: #131216; color: white; border-color: #131216; }
+    .pill:disabled { opacity: .42; cursor: default; }
     .service-pill { position: relative; }
     .service-pill::before { content: attr(data-size-label); visibility: hidden; }
     .service-pill > span { position: absolute; inset: 0; display: grid; place-items: center; }
@@ -296,7 +297,7 @@
           <fieldset><legend>Unde?</legend><div class="pills" data-group="location"><button class="pill" type="button" aria-pressed="true" data-value="Suceava">Suceava</button><button class="pill" type="button" aria-pressed="false" data-value="Rădăuți">Rădăuți</button></div></fieldset>
           <fieldset><legend>Ce te interesează?</legend><div class="pills" data-group="service"><button class="pill service-pill" type="button" aria-pressed="true" data-value="cursuri" data-size-label="Cursuri pentru copil"><span>Cursuri</span></button><button class="pill service-pill" type="button" aria-pressed="false" data-value="studio" data-size-label="Cursuri pentru mine"><span>Studio</span></button></div></fieldset>
           <fieldset><legend>Ce vrei să studiezi?</legend><div class="pills" data-group="course"><button class="pill" type="button" aria-pressed="false" data-value="Canto">Canto</button><button class="pill" type="button" aria-pressed="false" data-value="Cor">Cor</button><button class="pill" type="button" aria-pressed="false" data-value="Pian">Pian</button><button class="pill" type="button" aria-pressed="false" data-value="Acordeon">Acordeon</button><button class="pill" type="button" aria-pressed="false" data-value="Clarinet">Clarinet</button><button class="pill" type="button" aria-pressed="false" data-value="Saxofon">Saxofon</button><button class="pill" type="button" aria-pressed="false" data-value="Trompetă">Trompetă</button><button class="pill" type="button" aria-pressed="false" data-value="Flaut">Flaut</button><button class="pill" type="button" aria-pressed="false" data-value="Țambal">Țambal</button><button class="pill" type="button" aria-pressed="true" data-value="Nu știu încă">Nu știu încă</button></div></fieldset>
-          <a class="btn wa btn-arrow" id="whatsapp" href="#">Deschide WhatsApp</a>
+          <a class="btn wa btn-arrow" id="whatsapp" href="#">Trimite pe WhatsApp</a>
           <div class="contact-meta"><span>Cursuri: 0749 357 540</span><span>Studio: 0743 549 230</span><span>Suceava · Rădăuți</span></div>
         </div>
       </div>
@@ -313,6 +314,14 @@
     (() => {
       const state = { location: "Suceava", service: "cursuri", course: "Nu știu încă" };
       const link = document.querySelector("#whatsapp");
+      const courseButtons = document.querySelectorAll('[data-group="course"] button');
+      const syncCourseButtons = () => {
+        const studioSelected = state.service === "studio";
+        courseButtons.forEach(button => {
+          button.disabled = studioSelected;
+          button.setAttribute("aria-pressed", String(!studioSelected && button.dataset.value === state.course));
+        });
+      };
       const refresh = () => {
         let text;
         if (state.service === "studio") {
@@ -331,13 +340,14 @@
       document.querySelectorAll("[data-group]").forEach(group => {
         group.addEventListener("click", event => {
           const button = event.target.closest("button");
-          if (!button) return;
+          if (!button || button.disabled) return;
           group.querySelectorAll("button").forEach(item => item.setAttribute("aria-pressed", String(item === button)));
           state[group.dataset.group] = button.dataset.value;
           if (group.dataset.group === "course") {
             state.service = "cursuri";
             document.querySelectorAll('[data-group="service"] button').forEach(item => item.setAttribute("aria-pressed", String(item.dataset.value === "cursuri")));
           }
+          syncCourseButtons();
           refresh();
         });
       });
@@ -347,6 +357,7 @@
         }, { rootMargin: "-35% 0px -35% 0px", threshold: 0 });
         document.querySelectorAll(".choice").forEach(choice => observer.observe(choice));
       }
+      syncCourseButtons();
       refresh();
     })();
   </script>
