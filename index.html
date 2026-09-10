@@ -152,6 +152,9 @@
     .pills { display: flex; flex-wrap: wrap; gap: 9px; }
     .pill { min-height: 46px; padding: 0 16px; border: 1px solid rgba(17,16,20,.2); border-radius: 999px; background: transparent; color: #302e34; font: inherit; font-size: .92rem; font-weight: 750; cursor: pointer; }
     .pill[aria-pressed="true"] { background: #131216; color: white; border-color: #131216; }
+    .service-pill { position: relative; }
+    .service-pill::before { content: attr(data-size-label); visibility: hidden; }
+    .service-pill > span { position: absolute; inset: 0; display: grid; place-items: center; }
     .wa { width: 100%; min-height: 64px; border: 0; background: #1dce69; color: #062411; font-size: 1rem; }
     .contact-meta { display: flex; flex-wrap: wrap; gap: 20px 30px; margin-top: 24px; color: #49464e; font-weight: 700; }
 
@@ -181,7 +184,7 @@
       .top-cta { padding: 0 15px; min-height: 43px; font-size: .82rem; }
       .hero { min-height: 700px; }
       .hero-image { inset: 0 0 auto 10%; height: 533px; }
-      .hero-image img { object-position: 40% 50%; transform: scale(1.16); }
+      .hero-image img { object-position: clamp(54%, calc(83% - 7vw), 61%) 50%; transform: translateY(28px) scale(1.16); }
       .hero-image::after { left: 66%; top: 30%; width: 140px; }
       .hero-image::before { background: linear-gradient(90deg, rgba(9,9,11,.78), rgba(9,9,11,.08)), linear-gradient(0deg, var(--bg) 0%, rgba(9,9,11,.2) 60%); }
       .hero-content { padding: 132px 0 54px; }
@@ -291,7 +294,8 @@
         <div><p class="eyebrow">Contact</p><h2>Spune-ne cu ce te putem ajuta.</h2><p class="contact-copy">Alege locația și serviciul care te interesează. Se va deschide WhatsApp cu un mesaj pregătit, pe care îl poți modifica înainte să îl trimiți.</p></div>
         <div class="contact-panel">
           <fieldset><legend>Unde?</legend><div class="pills" data-group="location"><button class="pill" type="button" aria-pressed="true" data-value="Suceava">Suceava</button><button class="pill" type="button" aria-pressed="false" data-value="Rădăuți">Rădăuți</button></div></fieldset>
-          <fieldset><legend>Ce te interesează?</legend><div class="pills" data-group="interest"><button class="pill" type="button" aria-pressed="true" data-value="cursuri pentru copilul meu">Cursuri pentru copil</button><button class="pill" type="button" aria-pressed="false" data-value="cursuri pentru mine">Cursuri pentru mine</button><button class="pill" type="button" aria-pressed="false" data-value="corul Si Mi Song">Cor</button><button class="pill" type="button" aria-pressed="false" data-value="o sesiune în studio">Studio</button></div></fieldset>
+          <fieldset><legend>Ce te interesează?</legend><div class="pills" data-group="service"><button class="pill service-pill" type="button" aria-pressed="true" data-value="cursuri" data-size-label="Cursuri pentru copil"><span>Cursuri</span></button><button class="pill service-pill" type="button" aria-pressed="false" data-value="studio" data-size-label="Cursuri pentru mine"><span>Studio</span></button></div></fieldset>
+          <fieldset><legend>Ce vrei să studiezi?</legend><div class="pills" data-group="course"><button class="pill" type="button" aria-pressed="false" data-value="Canto">Canto</button><button class="pill" type="button" aria-pressed="false" data-value="Cor">Cor</button><button class="pill" type="button" aria-pressed="false" data-value="Pian">Pian</button><button class="pill" type="button" aria-pressed="false" data-value="Acordeon">Acordeon</button><button class="pill" type="button" aria-pressed="false" data-value="Clarinet">Clarinet</button><button class="pill" type="button" aria-pressed="false" data-value="Saxofon">Saxofon</button><button class="pill" type="button" aria-pressed="false" data-value="Trompetă">Trompetă</button><button class="pill" type="button" aria-pressed="false" data-value="Flaut">Flaut</button><button class="pill" type="button" aria-pressed="false" data-value="Țambal">Țambal</button><button class="pill" type="button" aria-pressed="true" data-value="Nu știu încă">Nu știu încă</button></div></fieldset>
           <a class="btn wa btn-arrow" id="whatsapp" href="#">Deschide WhatsApp</a>
           <div class="contact-meta"><span>Cursuri: 0749 357 540</span><span>Studio: 0743 549 230</span><span>Suceava · Rădăuți</span></div>
         </div>
@@ -307,11 +311,19 @@
 
   <script>
     (() => {
-      const state = { location: "Suceava", interest: "cursuri pentru copilul meu" };
+      const state = { location: "Suceava", service: "cursuri", course: "Nu știu încă" };
       const link = document.querySelector("#whatsapp");
       const refresh = () => {
-        const text = `Bună ziua! Mă interesează ${state.interest}, la ${state.location}. Îmi puteți spune, vă rog, cum se desfășoară și când aș putea veni la o primă întâlnire?`;
-        const phone = state.interest === "o sesiune în studio" ? "40743549230" : "40749357540";
+        let text;
+        if (state.service === "studio") {
+          text = `Bună ziua! Mă interesează o sesiune în studio, la ${state.location}. Îmi puteți spune, vă rog, cum se desfășoară și când aș putea veni?`;
+        } else if (state.course === "Nu știu încă") {
+          text = `Bună ziua! Mă interesează cursurile de muzică, la ${state.location}, dar nu știu încă ce curs să aleg. Îmi puteți spune, vă rog, cum se desfășoară și când aș putea veni la o primă întâlnire?`;
+        } else {
+          const selectedCourse = state.course === "Cor" ? "corul Si Mi Song" : `cursul de ${state.course.toLowerCase()}`;
+          text = `Bună ziua! Mă interesează ${selectedCourse}, la ${state.location}. Îmi puteți spune, vă rog, cum se desfășoară și când aș putea veni la o primă întâlnire?`;
+        }
+        const phone = state.service === "studio" ? "40743549230" : "40749357540";
         link.href = `https://wa.me/${phone}?text=${encodeURIComponent(text)}`;
         link.target = "_blank";
         link.rel = "noopener";
@@ -322,6 +334,10 @@
           if (!button) return;
           group.querySelectorAll("button").forEach(item => item.setAttribute("aria-pressed", String(item === button)));
           state[group.dataset.group] = button.dataset.value;
+          if (group.dataset.group === "course") {
+            state.service = "cursuri";
+            document.querySelectorAll('[data-group="service"] button').forEach(item => item.setAttribute("aria-pressed", String(item.dataset.value === "cursuri")));
+          }
           refresh();
         });
       });
