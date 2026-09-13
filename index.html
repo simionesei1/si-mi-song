@@ -152,6 +152,32 @@
     .schedule { align-self: flex-start; margin: 14px 0 18px; padding: 9px 13px; border-radius: 999px; background: rgba(0,0,0,.22); font-size: .88rem; font-weight: 800; }
     .choir-copy p { max-width: 500px; }
 
+    .team { background: linear-gradient(180deg, var(--bg), #111116); }
+    .team-head { margin-bottom: 48px; text-align: center; }
+    .team-head h2 { max-width: none; margin-bottom: 0; }
+    .team-grid { display: flex; flex-wrap: wrap; justify-content: center; gap: 28px 18px; }
+    .team-member { width: calc((100% - 90px) / 6); padding: 0; border: 0; background: none; color: inherit; font: inherit; text-align: center; cursor: pointer; }
+    .team-member:only-child { width: min(240px, 100%); }
+    .team-portrait { display: block; width: min(100%, 160px); aspect-ratio: 1; margin: 0 auto 16px; overflow: hidden; border: 3px solid rgba(255,255,255,.25); border-radius: 50%; transition: border-color .2s; }
+    .team-portrait img { display: block; width: 100%; height: 100%; object-fit: cover; object-position: center top; }
+    .team-member:hover .team-portrait, .team-member:focus-visible .team-portrait { border-color: var(--lime); }
+    .team-member:focus-visible { outline: 3px solid var(--lime); outline-offset: 8px; border-radius: 12px; }
+    .team-name, .team-role { display: block; }
+    .team-name { font-size: 1.05rem; font-weight: 850; line-height: 1.25; }
+    .team-role { margin-top: 6px; color: var(--muted); font-size: .85rem; line-height: 1.35; }
+    .teacher-modal { width: min(900px, calc(100% - 32px)); max-height: calc(100vh - 32px); max-height: calc(100dvh - 32px); padding: 0; overflow-y: auto; border: 1px solid var(--line); border-radius: 24px; background: var(--surface-2); color: var(--ink); box-shadow: 0 24px 90px rgba(0,0,0,.65); }
+    .teacher-modal::backdrop { background: rgba(0,0,0,.78); }
+    .teacher-modal-inner { display: grid; grid-template-columns: .8fr 1.2fr; }
+    .teacher-modal-media { display: flex; align-items: center; background: #0c0c10; }
+    .teacher-modal-media img { display: block; width: 100%; height: auto; }
+    .teacher-modal-copy { padding: 58px 44px 44px; }
+    .teacher-modal-copy h2 { max-width: none; margin-bottom: 12px; font-size: clamp(2.1rem, 4vw, 3.7rem); }
+    .teacher-modal-copy p { margin-bottom: 18px; }
+    .teacher-modal-role { color: var(--orange); font-weight: 750; }
+    .teacher-modal-copy blockquote { margin: 28px 0 0; padding-left: 20px; border-left: 3px solid var(--lime); color: #e0dce4; font-style: italic; }
+    .teacher-close { position: sticky; z-index: 2; top: 12px; float: right; display: grid; place-items: center; width: 42px; height: 42px; margin: 12px 12px -54px 0; border: 1px solid rgba(255,255,255,.4); border-radius: 50%; background: #111116; color: white; font: inherit; font-size: 1.8rem; line-height: 1; cursor: pointer; }
+    .teacher-close:focus-visible { outline: 3px solid var(--lime); outline-offset: 3px; }
+
     .studio { position: relative; min-height: 800px; display: flex; align-items: end; background: #060607; overflow: hidden; }
     .studio-bg { position: absolute; inset: 0; background: linear-gradient(90deg, rgba(6,6,7,.96), rgba(6,6,7,.25) 55%, rgba(6,6,7,.48)), linear-gradient(0deg, #060607, transparent 35%), url("assets/studio-hero.png") 72% center / cover no-repeat; }
     .studio::before { content: "STUDIO"; position: absolute; z-index: 1; right: -1vw; top: 5%; color: rgba(255,255,255,.055); font-size: min(18vw, 250px); font-weight: 950; letter-spacing: -.09em; }
@@ -193,6 +219,9 @@
       .manifesto-copy { padding-top: 0; max-width: 650px; }
       .choir-card { grid-template-columns: 1fr; }
       .choir-copy { padding: 55px 38px; }
+      .teacher-modal-inner { grid-template-columns: 1fr; }
+      .teacher-modal-media { justify-content: center; }
+      .teacher-modal-media img { width: auto; max-width: 100%; max-height: 45vh; }
       .contact-grid { gap: 48px; }
       #cursuri { margin-top: 0; padding-top: 32px; }
     }
@@ -222,6 +251,13 @@
       .video-arrow { display: none; }
       .choir-art { min-height: 0; aspect-ratio: 4 / 3; }
       .choir-copy { padding: 45px 27px; }
+      .team-grid { gap: 28px 10px; }
+      .team-member { width: calc((100% - 20px) / 3); }
+      .team-member:only-child { width: min(210px, 70%); }
+      .teacher-modal { border-radius: 18px; }
+      .teacher-modal-media img { max-height: 34vh; }
+      .teacher-modal-copy { padding: 30px 24px 34px; }
+      .teacher-modal-copy h2 { font-size: 2.2rem; }
       .studio { min-height: 720px; }
       .studio-bg { background: linear-gradient(0deg, #060607 8%, rgba(6,6,7,.18) 75%), url("assets/studio-hero.png") 64% top / auto 78% no-repeat; }
       .studio .wrap { padding-bottom: 58px; }
@@ -328,6 +364,51 @@
         </div>
       </div>
     </section>
+
+    <section class="team" id="echipa" aria-labelledby="echipa-title">
+      <div class="wrap">
+        <div class="team-head"><p class="eyebrow">Echipa noastră crește</p><h2 id="echipa-title">Echipa Si Mi Song</h2></div>
+        <div class="team-grid">
+          <button class="team-member" id="open-elena" type="button" aria-haspopup="dialog" aria-controls="profil-elena" aria-label="Deschide profilul Elenei Simionesei">
+            <span class="team-portrait"><img src="assets/elena-simionesei.jpg" alt="" loading="lazy"></span>
+            <span class="team-name">Elena Simionesei</span>
+            <span class="team-role">Canto, cor și flaut</span>
+          </button>
+          <button class="team-member" id="open-iulian" type="button" aria-haspopup="dialog" aria-controls="profil-iulian" aria-label="Deschide profilul lui Iulian Mihăilă">
+            <span class="team-portrait"><img src="assets/iulian-mihaila.png" alt="" loading="lazy"></span>
+            <span class="team-name">Iulian Mihăilă</span>
+            <span class="team-role">Acordeon, orgă · Studio</span>
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <dialog class="teacher-modal" id="profil-elena" aria-modal="true" aria-labelledby="profil-elena-title" aria-describedby="profil-elena-role">
+      <button class="teacher-close" type="button" aria-label="Închide profilul Elenei Simionesei">×</button>
+      <div class="teacher-modal-inner">
+        <div class="teacher-modal-media"><img src="assets/elena-simionesei.jpg" alt="Portretul Elenei Simionesei"></div>
+        <div class="teacher-modal-copy">
+          <h2 id="profil-elena-title">Elena Simionesei</h2>
+          <p class="teacher-modal-role" id="profil-elena-role">Profesor coordonator canto și cor | Profesor flaut</p>
+          <p>Cu o experiență de peste 30 de ani pe scenă și o solidă pregătire muzicală, Elena Simionesei îmbină activitatea artistică cu pasiunea pentru educația muzicală a copiilor și tinerilor.</p>
+          <p>A studiat pianul și flautul, iar ulterior canto clasic la Academia de Muzică „Gheorghe Dima” din Cluj-Napoca. De-a lungul anilor, a lucrat cu numeroși copii și tineri, contribuind la dezvoltarea lor vocală, artistică și scenică.</p>
+          <p>În cadrul Si Mi Song, coordonează cursurile de canto și activitatea corală și susține cursuri de flaut, punând accent pe dezvoltarea individuală a fiecărui copil, încrederea în sine și bucuria de a face muzică.</p>
+          <blockquote>„Cred că muzica nu înseamnă doar note și tehnică. Înseamnă emoție, încredere și libertatea fiecărui copil de a-și descoperi propria voce.”</blockquote>
+        </div>
+      </div>
+    </dialog>
+
+    <dialog class="teacher-modal" id="profil-iulian" aria-modal="true" aria-labelledby="profil-iulian-title" aria-describedby="profil-iulian-role">
+      <button class="teacher-close" type="button" aria-label="Închide profilul lui Iulian Mihăilă">×</button>
+      <div class="teacher-modal-inner">
+        <div class="teacher-modal-media"><img src="assets/iulian-mihaila.png" alt="Portretul lui Iulian Mihăilă"></div>
+        <div class="teacher-modal-copy">
+          <h2 id="profil-iulian-title">Iulian Mihăilă</h2>
+          <p class="teacher-modal-role" id="profil-iulian-role">Profesor de acordeon și orgă | Studio și înregistrări</p>
+          <p>Iulian Mihăilă este absolvent al Academiei Naționale de Muzică „Gheorghe Dima” din Cluj-Napoca și solist la acordeon și orgă. La Si Mi Song, predă cele două instrumente. În ultimii ani, a descoperit și pasiunea pentru înregistrări, iar astăzi se ocupă de studio.</p>
+        </div>
+      </div>
+    </dialog>
 
     <section class="studio" id="studio">
       <div class="studio-bg" aria-hidden="true"></div>
@@ -452,6 +533,30 @@
       }
       syncCourseButtons();
       refresh();
+    })();
+  </script>
+  <script>
+    (() => {
+      document.querySelectorAll(".team-member[aria-controls]").forEach(opener => {
+        const dialog = document.getElementById(opener.getAttribute("aria-controls"));
+        const closeButton = dialog.querySelector(".teacher-close");
+        opener.addEventListener("click", () => {
+          dialog.showModal();
+          closeButton.focus();
+        });
+        closeButton.addEventListener("click", () => dialog.close());
+        dialog.addEventListener("keydown", event => {
+          if (event.key === "Tab") {
+            event.preventDefault();
+            closeButton.focus();
+          }
+        });
+        dialog.addEventListener("click", event => {
+          const bounds = dialog.getBoundingClientRect();
+          if (event.clientX < bounds.left || event.clientX > bounds.right || event.clientY < bounds.top || event.clientY > bounds.bottom) dialog.close();
+        });
+        dialog.addEventListener("close", () => opener.focus());
+      });
     })();
   </script>
 </body>
