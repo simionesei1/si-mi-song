@@ -116,14 +116,22 @@
     .manifesto-copy p:last-child { margin-bottom: 0; }
 
     .listen { overflow: hidden; }
-    .video-grid { display: grid; grid-template-columns: 1.3fr .7fr; gap: 16px; }
-    .video-card { position: relative; display: block; min-height: 250px; border-radius: 20px; overflow: hidden; text-decoration: none; background: var(--surface); isolation: isolate; }
-    .video-card:first-child { min-height: 520px; grid-row: span 2; }
-    .video-card img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; opacity: .72; transition: transform .5s, opacity .3s; }
-    .video-card::after { content: ""; position: absolute; z-index: 0; inset: 0; background: linear-gradient(0deg, rgba(0,0,0,.88), transparent 65%); }
-    .video-card:hover img { transform: scale(1.035); opacity: .9; }
-    .video-label { position: absolute; z-index: 1; inset: auto 24px 22px; display: flex; justify-content: space-between; align-items: end; gap: 16px; font-weight: 800; }
-    .play { display: grid; place-items: center; flex: 0 0 auto; width: 45px; height: 45px; border-radius: 50%; background: var(--lime); color: #0a0b04; font-size: .9rem; }
+    .video-carousel { position: relative; }
+    .video-grid { display: flex; gap: 14px; overflow-x: auto; padding: 4px 2px 8px; scroll-snap-type: x mandatory; scroll-padding-inline: 2px; scroll-behavior: smooth; scrollbar-width: none; overscroll-behavior-inline: contain; -webkit-overflow-scrolling: touch; }
+    .video-grid::-webkit-scrollbar { display: none; }
+    .video-card { position: relative; display: block; flex: 0 0 clamp(180px, 20vw, 210px); aspect-ratio: 9 / 16; border-radius: 20px; overflow: hidden; text-decoration: none; background: var(--surface); isolation: isolate; scroll-snap-align: start; }
+    .video-card img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: center; opacity: .78; transition: transform .5s, opacity .3s; }
+    .video-card::after { content: ""; position: absolute; z-index: 0; inset: 0; background: linear-gradient(0deg, rgba(0,0,0,.9), transparent 60%); }
+    .video-card:hover img { transform: scale(1.035); opacity: .95; }
+    .video-card:focus-visible { outline: 3px solid var(--lime); outline-offset: 3px; }
+    .video-label { position: absolute; z-index: 1; inset: auto 14px 16px; font-size: .83rem; font-weight: 800; line-height: 1.2; overflow-wrap: anywhere; text-shadow: 0 1px 8px rgba(0,0,0,.8); }
+    .play { position: absolute; z-index: 1; top: 50%; left: 50%; transform: translate(-50%, -50%); display: grid; place-items: center; width: 42px; height: 42px; border-radius: 50%; background: var(--lime); color: #0a0b04; font-size: .8rem; }
+    .video-arrow { position: absolute; z-index: 2; top: 50%; width: 46px; height: 46px; border: 1px solid rgba(255,255,255,.3); border-radius: 50%; background: rgba(18,18,22,.9); color: var(--ink); font-family: inherit; font-size: 2rem; font-weight: 700; line-height: 1; cursor: pointer; transform: translateY(-50%); box-shadow: 0 8px 24px rgba(0,0,0,.35); }
+    .video-arrow:hover { background: var(--pink); }
+    .video-arrow:focus-visible { outline: 3px solid var(--lime); outline-offset: 3px; }
+    .video-arrow:disabled { opacity: 0; pointer-events: none; }
+    .video-arrow-prev { left: -20px; }
+    .video-arrow-next { right: -20px; }
 
     .choir-card { display: grid; grid-template-columns: .85fr 1.15fr; min-height: 590px; border-radius: 28px; overflow: hidden; background: linear-gradient(135deg, #de087c, #ff7f27); }
     .choir-art { position: relative; min-height: 350px; overflow: hidden; background: #1a1118; }
@@ -196,9 +204,11 @@
       .choice-grid { grid-template-columns: 1fr; }
       .choice:nth-child(odd) { border-right: 0; }
       .choice { min-height: 0; padding: 29px 10px 30px 56px; }
-      .video-grid { grid-template-columns: 1fr; }
-      .video-card:first-child { min-height: 300px; grid-row: auto; }
-      .video-card { min-height: 220px; }
+      .video-grid { width: 100vw; margin-left: calc(50% - 50vw); gap: clamp(5px, 1.2vw, 8px); padding-inline: 8px; scroll-padding-inline: 8px; }
+      .video-card { flex-basis: clamp(96px, 29.2vw, 130px); border-radius: 14px; }
+      .video-label { inset: auto 9px 10px; font-size: .65rem; line-height: 1.15; }
+      .play { width: 30px; height: 30px; font-size: .6rem; }
+      .video-arrow { display: none; }
       .choir-art { min-height: 0; aspect-ratio: 4 / 3; }
       .choir-copy { padding: 45px 27px; }
       .studio { min-height: 720px; }
@@ -211,7 +221,7 @@
     @media (hover: none) {
       .choice.is-lit::after { opacity: .3; transform: translate(-25px,-25px); }
     }
-    @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } * { transition: none !important; animation: none !important; } }
+    @media (prefers-reduced-motion: reduce) { html, .video-grid { scroll-behavior: auto; } * { transition: none !important; animation: none !important; } }
   </style>
 </head>
 <body>
@@ -266,10 +276,19 @@
         <div class="section-head">
           <div><p class="eyebrow">ELEVII SI MI SONG</p><h2>Portofoliu video</h2></div>
         </div>
-        <div class="video-grid">
-          <a class="video-card" href="https://www.youtube.com/watch?v=YE3hhk99CMY" target="_blank" rel="noopener"><img src="https://i.ytimg.com/vi/YE3hhk99CMY/hqdefault.jpg" alt="Cearta notelor Muzicale" loading="lazy"><span class="video-label"><span>Cearta notelor Muzicale</span><span class="play">▶</span></span></a>
-          <a class="video-card" href="https://www.youtube.com/watch?v=V8HTrzH39Uc" target="_blank" rel="noopener"><img src="https://i.ytimg.com/vi/V8HTrzH39Uc/hqdefault.jpg" alt="Brâu amestecat" loading="lazy"><span class="video-label"><span>Brâu amestecat</span><span class="play">▶</span></span></a>
-          <a class="video-card" href="https://www.youtube.com/watch?v=MTRBj3o-YGw" target="_blank" rel="noopener"><img src="https://i.ytimg.com/vi/MTRBj3o-YGw/hqdefault.jpg" alt="Pitpalacul" loading="lazy"><span class="video-label"><span>Pitpalacul</span><span class="play">▶</span></span></a>
+        <div class="video-carousel">
+          <button class="video-arrow video-arrow-prev" type="button" aria-label="Videoclipul anterior" aria-controls="video-track" disabled>‹</button>
+          <div class="video-grid" id="video-track" tabindex="0" role="group" aria-label="Portofoliu video, derulează orizontal">
+            <a class="video-card" href="https://www.youtube.com/watch?v=YE3hhk99CMY" target="_blank" rel="noopener"><img src="https://i.ytimg.com/vi/YE3hhk99CMY/hqdefault.jpg" alt="" loading="lazy"><span class="play" aria-hidden="true">▶</span><span class="video-label">Cearta notelor muzicale</span></a>
+            <a class="video-card" href="https://www.youtube.com/watch?v=V8HTrzH39Uc" target="_blank" rel="noopener"><img src="https://i.ytimg.com/vi/V8HTrzH39Uc/hqdefault.jpg" alt="" loading="lazy"><span class="play" aria-hidden="true">▶</span><span class="video-label">Brâu amestecat</span></a>
+            <a class="video-card" href="https://www.youtube.com/watch?v=MTRBj3o-YGw" target="_blank" rel="noopener"><img src="https://i.ytimg.com/vi/MTRBj3o-YGw/hqdefault.jpg" alt="" loading="lazy"><span class="play" aria-hidden="true">▶</span><span class="video-label">Pitpalacul</span></a>
+            <a class="video-card" href="https://www.youtube.com/watch?v=LXM7JjtEpAc" target="_blank" rel="noopener"><img src="https://i.ytimg.com/vi/LXM7JjtEpAc/hqdefault.jpg" alt="" loading="lazy"><span class="play" aria-hidden="true">▶</span><span class="video-label">Veselește-te Domn bun!</span></a>
+            <a class="video-card" href="https://www.youtube.com/watch?v=1dZBlraMT3s" target="_blank" rel="noopener"><img src="https://i.ytimg.com/vi/1dZBlraMT3s/hqdefault.jpg" alt="" loading="lazy"><span class="play" aria-hidden="true">▶</span><span class="video-label">Nivelul urmator (cover Iuliana Beregoi)</span></a>
+            <a class="video-card" href="https://www.youtube.com/watch?v=EeEjoFO7meQ" target="_blank" rel="noopener"><img src="https://i.ytimg.com/vi/EeEjoFO7meQ/hqdefault.jpg" alt="" loading="lazy"><span class="play" aria-hidden="true">▶</span><span class="video-label">1 Decembrie, La mulți ani România!</span></a>
+            <a class="video-card" href="https://www.youtube.com/watch?v=k9xfsG1bVLg" target="_blank" rel="noopener"><img src="https://i.ytimg.com/vi/k9xfsG1bVLg/hqdefault.jpg" alt="" loading="lazy"><span class="play" aria-hidden="true">▶</span><span class="video-label">Povestea unui ciobănaș</span></a>
+            <a class="video-card" href="https://www.youtube.com/watch?v=NMu7iXuVrxw" target="_blank" rel="noopener"><img src="https://i.ytimg.com/vi/NMu7iXuVrxw/hqdefault.jpg" alt="" loading="lazy"><span class="play" aria-hidden="true">▶</span><span class="video-label">Colindele copilăriei</span></a>
+          </div>
+          <button class="video-arrow video-arrow-next" type="button" aria-label="Videoclipul următor" aria-controls="video-track">›</button>
         </div>
       </div>
     </section>
@@ -312,6 +331,34 @@
 
   <script>
     (() => {
+      const videoTrack = document.querySelector("#video-track");
+      const videoPrev = document.querySelector(".video-arrow-prev");
+      const videoNext = document.querySelector(".video-arrow-next");
+      const videoStep = () => videoTrack.querySelectorAll(".video-card")[1].offsetLeft - videoTrack.querySelector(".video-card").offsetLeft;
+      const updateVideoArrows = () => {
+        videoPrev.disabled = videoTrack.scrollLeft <= 2;
+        videoNext.disabled = videoTrack.scrollLeft >= videoTrack.scrollWidth - videoTrack.clientWidth - 2;
+      };
+      const moveVideo = direction => videoTrack.scrollBy({ left: direction * videoStep(), behavior: window.matchMedia("(prefers-reduced-motion: reduce)").matches ? "auto" : "smooth" });
+      videoPrev.addEventListener("click", () => moveVideo(-1));
+      videoNext.addEventListener("click", () => moveVideo(1));
+      videoTrack.addEventListener("scroll", updateVideoArrows, { passive: true });
+      videoTrack.addEventListener("wheel", event => {
+        if (Math.abs(event.deltaY) <= Math.abs(event.deltaX)) return;
+        const atStart = videoTrack.scrollLeft <= 2;
+        const atEnd = videoTrack.scrollLeft >= videoTrack.scrollWidth - videoTrack.clientWidth - 2;
+        if ((atStart && event.deltaY < 0) || (atEnd && event.deltaY > 0)) return;
+        event.preventDefault();
+        videoTrack.scrollLeft += event.deltaY;
+      }, { passive: false });
+      videoTrack.addEventListener("keydown", event => {
+        if (event.key === "ArrowLeft" || event.key === "ArrowRight") {
+          event.preventDefault();
+          moveVideo(event.key === "ArrowRight" ? 1 : -1);
+        }
+      });
+      window.addEventListener("resize", updateVideoArrows);
+      updateVideoArrows();
       const state = { location: "Suceava", service: "cursuri", course: "Nu știu încă" };
       const link = document.querySelector("#whatsapp");
       const courseButtons = document.querySelectorAll('[data-group="course"] button');
