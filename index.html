@@ -115,12 +115,13 @@
     .manifesto-copy { padding-top: 56px; font-size: clamp(1.15rem, 2vw, 1.45rem); }
     .manifesto-copy p:last-child { margin-bottom: 0; }
 
-    .listen { overflow: hidden; }
-    .video-carousel { position: relative; }
-    .video-grid { display: flex; gap: 14px; overflow-x: auto; padding: 4px 2px 8px; scroll-snap-type: x mandatory; scroll-padding-inline: 2px; scroll-behavior: smooth; scrollbar-width: none; overscroll-behavior-inline: contain; -webkit-overflow-scrolling: touch; }
+    .listen { overflow: hidden; padding-bottom: 32px; }
+    .video-carousel { position: relative; width: min(100%, 900px); margin-inline: auto; }
+    .video-grid { display: flex; gap: 18px; overflow-x: auto; padding: 4px 2px 8px; scroll-snap-type: x mandatory; scroll-padding-inline: 2px; scroll-behavior: smooth; scrollbar-width: none; overscroll-behavior-inline: contain; -webkit-overflow-scrolling: touch; }
     .video-grid::-webkit-scrollbar { display: none; }
-    .video-card { position: relative; display: block; flex: 0 0 clamp(180px, 20vw, 210px); aspect-ratio: 9 / 16; border-radius: 20px; overflow: hidden; text-decoration: none; background: var(--surface); isolation: isolate; scroll-snap-align: start; }
-    .video-card img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: center; opacity: .78; transition: transform .5s, opacity .3s; }
+    .video-card { position: relative; display: block; flex: 0 0 clamp(280px, 38vw, 350px); aspect-ratio: 9 / 16; border: 1px solid rgba(255,255,255,.12); border-radius: 32px; overflow: hidden; text-decoration: none; background: var(--surface); isolation: isolate; scroll-snap-align: start; }
+    /* YouTube's 4:3 thumbnails include black bands around the 16:9 image. */
+    .video-card img { position: absolute; top: -16.667%; left: 0; width: 100%; height: 133.333%; object-fit: cover; object-position: center; opacity: .78; transition: transform .5s, opacity .3s; }
     .video-card::after { content: ""; position: absolute; z-index: 0; inset: 0; background: linear-gradient(0deg, rgba(0,0,0,.9), transparent 60%); }
     .video-card:hover img { transform: scale(1.035); opacity: .95; }
     .video-card:focus-visible { outline: 3px solid var(--lime); outline-offset: 3px; }
@@ -136,6 +137,15 @@
     .choir-card { display: grid; grid-template-columns: .85fr 1.15fr; min-height: 590px; border-radius: 28px; overflow: hidden; background: linear-gradient(135deg, #de087c, #ff7f27); }
     .choir-art { position: relative; min-height: 350px; overflow: hidden; background: #1a1118; }
     .choir-art img { display: block; width: 100%; height: 100%; object-fit: cover; object-position: 48% center; }
+    .choir-track { position: absolute; inset: 0; display: flex; overflow-x: auto; scroll-snap-type: x mandatory; scroll-behavior: smooth; scrollbar-width: none; overscroll-behavior-inline: contain; -webkit-overflow-scrolling: touch; }
+    .choir-track::-webkit-scrollbar { display: none; }
+    .choir-slide { flex: 0 0 100%; height: 100%; scroll-snap-align: start; }
+    .choir-arrow { position: absolute; z-index: 2; top: 50%; width: 44px; height: 44px; border: 1px solid rgba(255,255,255,.5); border-radius: 50%; background: rgba(9,9,11,.72); color: white; font-family: inherit; font-size: 1.9rem; line-height: 1; cursor: pointer; transform: translateY(-50%); }
+    .choir-arrow:hover:not(:disabled) { background: var(--lime); color: #101205; }
+    .choir-arrow:focus-visible { outline: 3px solid var(--lime); outline-offset: 3px; }
+    .choir-arrow:disabled { opacity: .4; cursor: default; }
+    .choir-arrow-prev { left: 12px; }
+    .choir-arrow-next { right: 12px; }
     .choir-copy { padding: 72px 60px; display: flex; flex-direction: column; justify-content: center; }
     .choir-copy .eyebrow { color: #250210; }
     .choir-copy h2 { max-width: 9ch; }
@@ -204,10 +214,11 @@
       .choice-grid { grid-template-columns: 1fr; }
       .choice:nth-child(odd) { border-right: 0; }
       .choice { min-height: 0; padding: 29px 10px 30px 56px; }
-      .video-grid { width: 100vw; margin-left: calc(50% - 50vw); gap: clamp(5px, 1.2vw, 8px); padding-inline: 8px; scroll-padding-inline: 8px; }
-      .video-card { flex-basis: clamp(96px, 29.2vw, 130px); border-radius: 14px; }
-      .video-label { inset: auto 9px 10px; font-size: .65rem; line-height: 1.15; }
-      .play { width: 30px; height: 30px; font-size: .6rem; }
+      .listen { padding-bottom: 8px; }
+      .video-grid { width: 100vw; margin-left: calc(50% - 50vw); gap: clamp(7px, 2vw, 10px); padding-inline: 8px; scroll-padding-inline: 8px; }
+      .video-card { flex-basis: clamp(135px, 42vw, 250px); border-radius: 28px; }
+      .video-label { inset: auto 12px 14px; font-size: .75rem; line-height: 1.15; }
+      .play { width: 38px; height: 38px; font-size: .7rem; }
       .video-arrow { display: none; }
       .choir-art { min-height: 0; aspect-ratio: 4 / 3; }
       .choir-copy { padding: 45px 27px; }
@@ -221,7 +232,7 @@
     @media (hover: none) {
       .choice.is-lit::after { opacity: .3; transform: translate(-25px,-25px); }
     }
-    @media (prefers-reduced-motion: reduce) { html, .video-grid { scroll-behavior: auto; } * { transition: none !important; animation: none !important; } }
+    @media (prefers-reduced-motion: reduce) { html, .video-grid, .choir-track { scroll-behavior: auto; } * { transition: none !important; animation: none !important; } }
   </style>
 </head>
 <body>
@@ -296,7 +307,23 @@
     <section id="cor">
       <div class="wrap">
         <div class="choir-card">
-          <div class="choir-art"><img src="assets/cor-si-mi-song.jpg" alt="Copiii corului Si Mi Song la repetiție" loading="lazy"></div>
+          <div class="choir-art">
+            <button class="choir-arrow choir-arrow-prev" type="button" aria-label="Fotografia anterioară" aria-controls="choir-track" disabled>‹</button>
+            <div class="choir-track" id="choir-track" tabindex="0" role="group" aria-label="Galeria foto a corului">
+              <div class="choir-slide"><img src="assets/cor-si-mi-song.jpg" alt="Copiii corului Si Mi Song la repetiție" loading="lazy"></div>
+              <div class="choir-slide"><img src="assets/cor-galerie-01.jpeg" alt="Copiii corului Si Mi Song cu mâinile ridicate în studio" loading="lazy"></div>
+              <div class="choir-slide"><img src="assets/cor-galerie-02.jpeg" alt="Corul Si Mi Song la o repetiție în studio" loading="lazy"></div>
+              <div class="choir-slide"><img src="assets/cor-galerie-03.jpeg" alt="Copiii corului Si Mi Song lângă pian în studio" loading="lazy"></div>
+              <div class="choir-slide"><img src="assets/cor-galerie-04.jpeg" alt="Corul Si Mi Song cântând pe scenă alături de dirijoare" loading="lazy"></div>
+              <div class="choir-slide"><img src="assets/cor-galerie-05.jpeg" alt="Corul Si Mi Song la un concert în aer liber" loading="lazy"></div>
+              <div class="choir-slide"><img src="assets/cor-galerie-06.jpeg" alt="Copiii corului Si Mi Song lângă un brad de Crăciun" loading="lazy"></div>
+              <div class="choir-slide"><img src="assets/cor-galerie-07.jpeg" alt="Dirijoarea și copiii corului Si Mi Song cântând pe scenă" loading="lazy"></div>
+              <div class="choir-slide"><img src="assets/cor-galerie-08.jpeg" alt="Copiii corului Si Mi Song cântând cu partituri" loading="lazy"></div>
+              <div class="choir-slide"><img src="assets/cor-galerie-09.jpeg" alt="Corul Si Mi Song cântând pe scenă alături de un pianist" loading="lazy"></div>
+              <div class="choir-slide"><img src="assets/cor-galerie-10.jpeg" alt="Corul Si Mi Song într-o biserică" loading="lazy"></div>
+            </div>
+            <button class="choir-arrow choir-arrow-next" type="button" aria-label="Fotografia următoare" aria-controls="choir-track">›</button>
+          </div>
           <div class="choir-copy"><p class="eyebrow">CORUL SI MI SONG</p><h2>Cor pentru copii.</h2><span class="schedule">SUCEAVA · MIERCURI · 17:00–19:00</span><p>La repetiții, copiii învață să asculte celelalte voci, să urmărească dirijorul și să cânte împreună. Corul este deschis și copiilor care nu au mai cântat până acum.</p><div class="actions"><a class="btn btn-ghost" href="#contact">Vreau detalii despre cor</a></div></div>
         </div>
       </div>
@@ -359,6 +386,25 @@
       });
       window.addEventListener("resize", updateVideoArrows);
       updateVideoArrows();
+      const choirTrack = document.querySelector("#choir-track");
+      const choirPrev = document.querySelector(".choir-arrow-prev");
+      const choirNext = document.querySelector(".choir-arrow-next");
+      const updateChoirArrows = () => {
+        choirPrev.disabled = choirTrack.scrollLeft <= 2;
+        choirNext.disabled = choirTrack.scrollLeft >= choirTrack.scrollWidth - choirTrack.clientWidth - 2;
+      };
+      const moveChoir = direction => choirTrack.scrollBy({ left: direction * choirTrack.clientWidth, behavior: window.matchMedia("(prefers-reduced-motion: reduce)").matches ? "auto" : "smooth" });
+      choirPrev.addEventListener("click", () => moveChoir(-1));
+      choirNext.addEventListener("click", () => moveChoir(1));
+      choirTrack.addEventListener("scroll", updateChoirArrows, { passive: true });
+      choirTrack.addEventListener("keydown", event => {
+        if (event.key === "ArrowLeft" || event.key === "ArrowRight") {
+          event.preventDefault();
+          moveChoir(event.key === "ArrowRight" ? 1 : -1);
+        }
+      });
+      window.addEventListener("resize", updateChoirArrows);
+      updateChoirArrows();
       const state = { location: "Suceava", service: "cursuri", course: "Nu știu încă" };
       const link = document.querySelector("#whatsapp");
       const courseButtons = document.querySelectorAll('[data-group="course"] button');
