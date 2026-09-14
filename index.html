@@ -156,10 +156,14 @@
     .team-head { margin-bottom: 48px; text-align: center; }
     .team-head h2 { max-width: none; margin-bottom: 0; }
     .team-grid { display: flex; flex-wrap: wrap; justify-content: center; gap: 28px 18px; }
-    .team-member { width: calc((100% - 90px) / 6); padding: 0; border: 0; background: none; color: inherit; font: inherit; text-align: center; cursor: pointer; }
-    .team-member:only-child { width: min(240px, 100%); }
+    .team-member, .team-placeholder { width: calc((100% - 90px) / 6); text-align: center; }
+    .team-member { padding: 0; border: 0; background: none; color: inherit; font: inherit; cursor: pointer; }
     .team-portrait { display: block; width: min(100%, 160px); aspect-ratio: 1; margin: 0 auto 16px; overflow: hidden; border: 3px solid rgba(255,255,255,.25); border-radius: 50%; transition: border-color .2s; }
     .team-portrait img { display: block; width: 100%; height: 100%; object-fit: cover; object-position: center top; }
+    .team-silhouette { position: relative; border-color: #4e4e55; background: #303036; }
+    .team-silhouette::before { content: ""; position: absolute; top: 20%; left: 35%; width: 30%; aspect-ratio: 1; border-radius: 50%; background: #87878e; }
+    .team-silhouette::after { content: ""; position: absolute; bottom: 7%; left: 17%; width: 66%; height: 43%; border-radius: 50% 50% 20% 20%; background: #87878e; }
+    .team-placeholder .team-name { color: var(--muted); font-size: .92rem; }
     .team-member:hover .team-portrait, .team-member:focus-visible .team-portrait { border-color: var(--lime); }
     .team-member:focus-visible { outline: 3px solid var(--lime); outline-offset: 8px; border-radius: 12px; }
     .team-name, .team-role { display: block; }
@@ -252,8 +256,7 @@
       .choir-art { min-height: 0; aspect-ratio: 4 / 3; }
       .choir-copy { padding: 45px 27px; }
       .team-grid { gap: 28px 10px; }
-      .team-member { width: calc((100% - 20px) / 3); }
-      .team-member:only-child { width: min(210px, 70%); }
+      .team-member, .team-placeholder { width: calc((100% - 20px) / 3); }
       .teacher-modal { border-radius: 18px; }
       .teacher-modal-media img { max-height: 34vh; }
       .teacher-modal-copy { padding: 30px 24px 34px; }
@@ -379,6 +382,14 @@
             <span class="team-name">Iulian Mihăilă</span>
             <span class="team-role">Acordeon, orgă · Studio</span>
           </button>
+          <button class="team-member" id="open-dumitru" type="button" aria-haspopup="dialog" aria-controls="profil-dumitru" aria-label="Deschide profilul lui Dumitru Simionesei">
+            <span class="team-portrait"><img src="assets/dumitru-simionesei.png" alt="" loading="lazy"></span>
+            <span class="team-name">Dumitru Simionesei</span>
+            <span class="team-role">Pian · Cor</span>
+          </button>
+          <div class="team-placeholder"><span class="team-portrait team-silhouette" aria-hidden="true"></span><span class="team-name">În curând</span></div>
+          <div class="team-placeholder"><span class="team-portrait team-silhouette" aria-hidden="true"></span><span class="team-name">În curând</span></div>
+          <div class="team-placeholder"><span class="team-portrait team-silhouette" aria-hidden="true"></span><span class="team-name">În curând</span></div>
         </div>
       </div>
     </section>
@@ -406,6 +417,18 @@
           <h2 id="profil-iulian-title">Iulian Mihăilă</h2>
           <p class="teacher-modal-role" id="profil-iulian-role">Profesor de acordeon și orgă | Studio și înregistrări</p>
           <p>Iulian Mihăilă este absolvent al Academiei Naționale de Muzică „Gheorghe Dima” din Cluj-Napoca și solist la acordeon și orgă. La Si Mi Song, predă cele două instrumente. În ultimii ani, a descoperit și pasiunea pentru înregistrări, iar astăzi se ocupă de studio.</p>
+        </div>
+      </div>
+    </dialog>
+
+    <dialog class="teacher-modal" id="profil-dumitru" aria-modal="true" aria-labelledby="profil-dumitru-title" aria-describedby="profil-dumitru-role">
+      <button class="teacher-close" type="button" aria-label="Închide profilul lui Dumitru Simionesei">×</button>
+      <div class="teacher-modal-inner">
+        <div class="teacher-modal-media"><img src="assets/dumitru-simionesei.png" alt="Portretul lui Dumitru Simionesei"></div>
+        <div class="teacher-modal-copy">
+          <h2 id="profil-dumitru-title">Dumitru Simionesei</h2>
+          <p class="teacher-modal-role" id="profil-dumitru-role">Profesor de pian | Coordonator și corepetitor al corului Si Mi Song</p>
+          <p>Dumitru Simionesei este fondatorul Grupului Si Mi Song. A absolvit Universitatea de Arte „George Enescu” din Iași și predă pianul la Si Mi Song. Tot el coordonează corul și participă la pregătirea acestuia în calitate de corepetitor.</p>
         </div>
       </div>
     </dialog>
